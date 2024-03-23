@@ -1,5 +1,4 @@
 <?php 
-
 function getProducts($connect){
     $sql = "SELECT * FROM produtos";
     $result = $connect->query($sql);
@@ -16,9 +15,8 @@ function getProductsByIds($connect, $ids){
     if($result->num_rows > 0){
         return $result->fetch_all(MYSQLI_ASSOC);
     }else{
-        return array(); // Retorna um array vazio se não houver resultados
+        return array(); 
     }
 }
-
 
 ?>

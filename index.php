@@ -1,3 +1,6 @@
+<?php
+session_start(); // Inicia a sessão PHP no início do script
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +9,14 @@
     <title>Tela Principal</title>
 </head>
 <body>
-    <h2>Seja bem vindo a tela inicial</h2>
-    <a href="produtos.php"><button>Produtos</button></a>
-    <a href="login.php"><button>Login</button></a>
+    <h1>Seja bem-vindo à tela principal</h1>
+    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+        
+        <a href="produtos.php"><button>Produtos</button></a>
+        <a href="sair.php"><button>Sair da conta</button></a>
+    <?php else: ?>
+        <h1>Por favor, faça o login</h1>
+        <a href="init-oauth.php"><button>Logar com Discord</button></a>
+    <?php endif; ?>
 </body>
 </html>

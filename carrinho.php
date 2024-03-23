@@ -5,25 +5,35 @@ require_once "functions/produtos.php";
 require_once "functions/carrinho.php";
 
 
-if (isset($_GET['acao']) && in_array($_GET['acao'], array('add', 'del', 'up'))) {
+// Início do arquivo PHP, onde você já tem session_start();
 
-	if ($_GET['acao'] == 'add' && isset($_GET['id']) && preg_match("/^[0-9]+$/", $_GET['id'])) {
-		addCart($_GET['id'], 1);
-	}
+if (isset($_GET['acao'])) {
+    // Verifica se o usuário está logado
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        echo "Você precisa estar logado para adicionar produtos ao carrinho.";
+        exit; // Impede a execução de qualquer outra lógica de adição se não estiver logado
+    }
 
-	if ($_GET['acao'] == 'del' && isset($_GET['id']) && preg_match("/^[0-9]+$/", $_GET['id'])) {
-		deleteCart($_GET['id']);
-	}
+    if (in_array($_GET['acao'], array('add', 'del', 'up'))) {
+        if ($_GET['acao'] == 'add' && isset($_GET['id']) && preg_match("/^[0-9]+$/", $_GET['id'])) {
+            addCart($_GET['id'], 1);
+        }
 
-	if ($_GET['acao'] == 'up') {
-		if (isset($_POST['prod']) && is_array($_POST['prod'])) {
-			foreach ($_POST['prod'] as $id => $qtd) {
-				updateCart($id, $qtd);
-			}
-		}
-	}
-	header('location: carrinho.php');
+        if ($_GET['acao'] == 'del' && isset($_GET['id']) && preg_match("/^[0-9]+$/", $_GET['id'])) {
+            deleteCart($_GET['id']);
+        }
+
+        if ($_GET['acao'] == 'up') {
+            if (isset($_POST['prod']) && is_array($_POST['prod'])) {
+                foreach ($_POST['prod'] as $id => $qtd) {
+                    updateCart($id, $qtd);
+                }
+            }
+        }
+        header('location: carrinho.php');
+    }
 }
+
 
 $resultsCarts = getContentCart($connect);
 $totalCarts  = getTotalCart($connect);

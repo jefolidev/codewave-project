@@ -38,6 +38,7 @@ if(!$result){
 }
 
 $result = json_decode($result,true);
+
 $access_token = $result['access_token'];
 
 $discord_users_url = "https://discordapp.com/api/users/@me";
@@ -66,5 +67,5 @@ $_SESSION['userData'] = [
     'avatar'=>$result['avatar'],
 ];
 
-header("location: index.php");
+header("location: ../index.php");
 exit();
